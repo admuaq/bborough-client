@@ -14,3 +14,11 @@ path:hover {
     fill: #3e68ad !important;
     cursor: pointer;
 }
+
+path:focus {
+    stroke: #3e68ad !important;
+    stroke-width:2px;
+    stroke-linejoin: round;
+    fill: #3e68ad !important;
+    cursor: pointer;
+}

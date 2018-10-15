@@ -25,6 +25,8 @@ class App extends Component {
 
   handleBoroughClick = (e) => {
     let borough = e.target.value
+    // clear up any classes that may exist
+    // set the class of the selected borough to :hover
     this.renderPostcodes(borough) 
   }
 
@@ -87,7 +89,7 @@ class App extends Component {
           </Container>
         </Menu>
         <Container style={{ marginTop: '7em', marginBottom: '2em'}}>
-          <LondonBoroughs />
+          <LondonBoroughs handleBoroughClick={this.handleBoroughClick}/>
         </Container>
         <Container style={{ marginTop: '2em', marginBottom: '2em'}}>
           <BoroughDropdown data={this.state.data} 
