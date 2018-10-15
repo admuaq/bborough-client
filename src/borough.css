@@ -1,0 +1,16 @@
+clipPath svg {
+    height: 50vw
+}
+
+clipPath path {
+    fill: #d3d3d3; 
+    transition: .6s fill;
+}
+
+path:hover {
+    stroke: #3e68ad !important;
+    stroke-width:2px;
+    stroke-linejoin: round;
+    fill: #3e68ad !important;
+    cursor: pointer;
+}

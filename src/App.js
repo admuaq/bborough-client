@@ -6,6 +6,7 @@ import { Container, Modal, Dropdown, Grid, Header, Image, List,
 import BoroughDropdown from './containers/BoroughDropdown'
 import PostcodeDropdown from './containers/PostcodeDropdown'
 import PresentedData from './components/presentedData'
+import LondonBoroughs from './components/londonBoroughs'
 
 class App extends Component {
 
@@ -76,6 +77,9 @@ class App extends Component {
   }
 
   render () {
+
+    // const boroughMap = require('./images/londonBoroughsMap.svg')
+
     return (
       <div className='App'>
         <Menu fixed='top' inverted>
@@ -83,6 +87,9 @@ class App extends Component {
           </Container>
         </Menu>
         <Container style={{ marginTop: '7em', marginBottom: '2em'}}>
+          <LondonBoroughs />
+        </Container>
+        <Container style={{ marginTop: '2em', marginBottom: '2em'}}>
           <BoroughDropdown data={this.state.data} 
           handleBoroughClick={this.handleBoroughClick}
           toggleShow={this.toggleShow}/>
@@ -96,17 +103,11 @@ class App extends Component {
           <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
           { this.state.showArea !== false 
           ? 
-          <Modal trigger={<Button>Results</Button>}>
             <PresentedData 
             area={this.state.selectedArea}
             borough={this.state.selectedBorough}/>
-          </Modal>
           : null}
           </Container>
-        </Container>
-        <Container>
-          <Button color='blue'>Compare with other</Button>
-          <Button color='green'>Compare all Postcodes</Button>
         </Container>
       </div>
     )
