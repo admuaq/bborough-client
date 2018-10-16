@@ -22,3 +22,7 @@ path:focus {
     fill: #3e68ad !important;
     cursor: pointer;
 }
+
+.selected-borough {
+    fill: #3e68ad;
+}

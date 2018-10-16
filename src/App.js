@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import './App.css'
-import { Container, Modal, Dropdown, Grid, Header, Image, List, 
+import { Container, Checkbox, Modal, Dropdown, Grid, Header, Image, List, 
   Menu, Segment, Button } from 'semantic-ui-react'
 
 import BoroughDropdown from './containers/BoroughDropdown'
 import PostcodeDropdown from './containers/PostcodeDropdown'
 import PresentedData from './components/presentedData'
+import Filter from './components/Filter'
 import LondonBoroughs from './components/londonBoroughs'
 
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
     data: [],
     selectedBorough: {},
     selectedArea: {},
-    showArea: false,
+    showArea: false
   }
 
   fetchData = () => {
@@ -23,8 +24,8 @@ class App extends Component {
     .then( boroughData => this.setState({ data: boroughData }) )
   }
 
-  handleBoroughClick = (e) => {
-    let borough = e.target.value
+  handleBoroughClick = (boroughName) => {
+    let borough = boroughName
     // clear up any classes that may exist
     // set the class of the selected borough to :hover
     this.renderPostcodes(borough) 
@@ -36,7 +37,7 @@ class App extends Component {
   }
 
   renderPostcodes = (borough) => {
-    // console.log(borough)
+    console.log(borough)
     let foundBorough = this.state.data.find( fb => fb.name === borough )
     this.setState({ ...this.state, 
       selectedBorough: foundBorough,
@@ -53,23 +54,11 @@ class App extends Component {
       
   }
 
-  toggleShow = (e) => {
-    let trigger = e.target.value
-
-    if (trigger === 'default-area'){
-      console.log(trigger)
-      this.setState({...this.state, 
-        showArea: false,
-        selectedArea: {} })}
-
-    else if (trigger === 'default-borough'){
-    console.log(trigger)
-    this.setState({...this.state, 
-      showArea: false,
-      selectedBorough: {},
-      selectedArea: {} })}
-    else{
-      return this.state}
+  toggleShow = () => {
+    console.log(this.state)
+    !this.state.showArea 
+    ? this.setState({...this.state, showArea: true})
+    : this.setState({...this.state, showArea: false})
   }
 
     
@@ -92,20 +81,31 @@ class App extends Component {
           <LondonBoroughs handleBoroughClick={this.handleBoroughClick}/>
         </Container>
         <Container style={{ marginTop: '2em', marginBottom: '2em'}}>
-          <BoroughDropdown data={this.state.data} 
-          handleBoroughClick={this.handleBoroughClick}
-          toggleShow={this.toggleShow}/>
-          { this.state.selectedBorough !== {}
+          {
+            !!this.state.selectedBorough.name && `Borough: ${this.state.selectedBorough.name}`
+          }
+          <br/>
+          {/* { this.state.selectedBorough !== {}
           ?  <PostcodeDropdown 
           borough={this.state.selectedBorough}
           handlePostcodeClick={this.handlePostcodeClick}
           toggleShow={this.toggleShow}
           /> 
-          : null }
-          <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
+          : null } */}
+          { !!this.state.selectedBorough.name && `Borough: ${this.state.selectedBorough.name}`
+          ?  <Checkbox label='by average income' onChange={() => this.toggleShow()}/> 
+          : '' }
+          {/* <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
           { this.state.showArea !== false 
           ? 
             <PresentedData 
+            area={this.state.selectedArea}
+            borough={this.state.selectedBorough}/>
+          : null} */}
+          <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
+          { this.state.showArea !== false 
+          ? 
+          <Filter 
             area={this.state.selectedArea}
             borough={this.state.selectedBorough}/>
           : null}
