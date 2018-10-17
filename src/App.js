@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import { Container, Checkbox, Modal, Dropdown, Grid, Header, Image, List, 
+import { Container, Checkbox, Modal, Icon, Grid, Header, Image, List, 
   Menu, Segment, Button } from 'semantic-ui-react'
 
 import BoroughDropdown from './containers/BoroughDropdown'
@@ -15,7 +15,10 @@ class App extends Component {
     data: [],
     selectedBorough: {},
     selectedArea: {},
-    showArea: false
+    showCheckbox: false,
+    showModal: false,
+    selectedFilter: '',
+    filterResult: []
   }
 
   fetchData = () => {
@@ -28,7 +31,7 @@ class App extends Component {
     let borough = boroughName
     // clear up any classes that may exist
     // set the class of the selected borough to :hover
-    this.renderPostcodes(borough) 
+    this.renderPostcodes(borough)
   }
 
   handlePostcodeClick = (e) => {
@@ -41,7 +44,7 @@ class App extends Component {
     let foundBorough = this.state.data.find( fb => fb.name === borough )
     this.setState({ ...this.state, 
       selectedBorough: foundBorough,
-      showArea: false})
+      showCheckbox: true})
   }
 
   renderResults = (areacode) => {
@@ -50,26 +53,80 @@ class App extends Component {
     // this.toggleShow(areacode)
     this.setState({ ...this.state, 
       selectedArea: foundAreacode,
-      showArea: true })
+      showCheckbox: true })
       
   }
 
   toggleShow = () => {
-    console.log(this.state)
-    !this.state.showArea 
-    ? this.setState({...this.state, showArea: true})
-    : this.setState({...this.state, showArea: false})
+    // console.log(this.state)
+    !this.state.showCheckbox 
+    ? this.setState({...this.state, showCheckbox: true})
+    : this.setState({...this.state, showCheckbox: false})
   }
 
-    
+  onSelectCheckbox = (filter) => {
+    // this.setState( {...this.state, selectedFilter: filter, showModal: true})
+
+    let postcodes
+    let mainResult 
+    let crimeResult
+    let postcode
+    let crimeRateIndex
+    let stats
+    let avgSalaryResult
+    let avgSalaryIndex
+
+    if (filter === 'by average salary (of posted jobs)'){
+      postcodes = this.state.selectedBorough.postcodes
+      mainResult = postcodes.sort( (a,b) => b.averageSalaryPostedJob - a.averageSalaryPostedJob )[0]
+      crimeResult = this.state.selectedBorough.postcodes.sort( (a,b) => a.crimeRate - b.crimeRate)
+
+      crimeRateIndex = crimeResult.indexOf(mainResult)
+      console.log('mainResult', mainResult)
+      console.log('crimeResult', crimeResult)
+      console.log('crimeRateIndex', crimeRateIndex)
+
+      stats = [{ postcode: mainResult.outcode, avgSalaryRank: 1, avgCrimeRank: crimeRateIndex + 1 }]
+
+      this.setState( {...this.state, selectedFilter: filter, showModal: true, filterResult: stats } )
+     }
+     else if (filter === 'by crime rate'){
+      postcodes = this.state.selectedBorough.postcodes
+      mainResult = postcodes.sort( (a,b) => a.crimeRate - b.crimeRate )[0]
+      avgSalaryResult = this.state.selectedBorough.postcodes.sort( (a,b) => b.averageSalaryPostedJob - a.averageSalaryPostedJob)
+
+      avgSalaryIndex = avgSalaryResult.indexOf(mainResult)
+
+      stats = [{ postcode: mainResult.outcode, avgSalaryRank: avgSalaryIndex + 1, avgCrimeRank: 1 }]
+
+      this.setState( {...this.state, selectedFilter: filter, showModal: true, filterResult: stats } )
+     }
+     else {
+       return
+     }
+  }
+
+  // chooseFilterConditionResult = () => {
+
+  //   if (this.state.selectedFilter === 'by average salary (of posted jobs)'){
+  //    let mainResult = this.state.selectedBorough.postcodes.sort( (a,b) => b.averageSalaryPostedJob - a.averageSalaryPostedJob)
+  //    let crimeResult = this.state.selectedBorough.postcodes.sort( (a,b) => a.crimeRate - b.crimeRate)
+  //    let crimeRateIndex = crimeResult.findIndex(this.state.selectedBorough)
+
+  //    let stats = [{ avgSalaryRank: 1, avgCrimeRank: crimeRateIndex + 1 }]
+  //     this.setState( { ...this.state, filterResult: stats } )
+  //   }
+  //   else {
+  //     return
+  //   }
+
+  // }
 
   componentDidMount(){
     this.fetchData()
   }
 
   render () {
-
-    // const boroughMap = require('./images/londonBoroughsMap.svg')
 
     return (
       <div className='App'>
@@ -85,30 +142,31 @@ class App extends Component {
             !!this.state.selectedBorough.name && `Borough: ${this.state.selectedBorough.name}`
           }
           <br/>
-          {/* { this.state.selectedBorough !== {}
-          ?  <PostcodeDropdown 
-          borough={this.state.selectedBorough}
-          handlePostcodeClick={this.handlePostcodeClick}
-          toggleShow={this.toggleShow}
-          /> 
-          : null } */}
-          { !!this.state.selectedBorough.name && `Borough: ${this.state.selectedBorough.name}`
-          ?  <Checkbox label='by average income' onChange={() => this.toggleShow()}/> 
-          : '' }
-          {/* <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
-          { this.state.showArea !== false 
+          <p/>
+          { this.state.showCheckbox
           ? 
-            <PresentedData 
-            area={this.state.selectedArea}
-            borough={this.state.selectedBorough}/>
-          : null} */}
+          <div>
+          <span>Area by:</span><br/>
+          <Checkbox key={1} label='by average salary (of posted jobs)' onChange={(e) => {
+            this.onSelectCheckbox(e.target.innerText)}}/> 
+          <Checkbox label='by crime rate' onChange={(e) => {
+            this.onSelectCheckbox(e.target.innerText)}}/> 
+          <Checkbox label='by best school results' onChange={(e) => {
+            this.onSelectCheckbox(e.target.innerText)}}/> 
+          <Checkbox label='by number of parks' onChange={(e) => {
+            this.onSelectCheckbox(e.target.innerText)}}/>
+          </div> 
+          : <span>Pick a borough</span> }
+          
           <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
-          { this.state.showArea !== false 
-          ? 
-          <Filter 
-            area={this.state.selectedArea}
-            borough={this.state.selectedBorough}/>
-          : null}
+          {this.state.showModal 
+          ? <Filter 
+            onSelectedFilter={this.chooseFilterConditionResult}
+            filterCondition={this.state.selectedFilter}
+            returnedFilterResult={this.state.filterResult}/>
+            :
+            <div></div>
+          }
           </Container>
         </Container>
       </div>
