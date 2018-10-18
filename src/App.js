@@ -57,7 +57,7 @@ class App extends Component {
 
   clearFilterResult = () => {
     this.setState( {...this.state, selectedBorough: {},
-      selectedArea: {}, selectedFilter: '', showModal: false, showCheckbox: false} )
+      selectedArea: {}, selectedFilter: '', showModal: false, loaded: false, showCheckbox: false} )
   }
 
   renderResults = (areacode) => {
@@ -195,7 +195,7 @@ class App extends Component {
             <Checkbox label='by number of parks' onChange={(e) => {
               this.onSelectCheckbox(e.target.innerText)}}/>
             </div> 
-            : <span>Pick a borough</span> }
+            : <div><span>Pick a borough</span><br/><span>or</span></div> }
             
             <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
             {this.state.showModal 
@@ -212,7 +212,7 @@ class App extends Component {
             </Container>
           </Container>
           <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
-            <CompareBoroughData />
+           { !this.state.loaded ? <CompareBoroughData /> : <div></div> }
           </Container>
       </div>
     )

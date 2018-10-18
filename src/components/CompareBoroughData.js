@@ -8,7 +8,7 @@ class CompareBoroughData extends Component {
   }
   render () {
     return (
-      <Modal trigger={<Button>Load Results</Button>} closeIcon >
+      <Modal trigger={<Button>Compare boroughs</Button>} closeIcon >
         <Modal.Header>Boroughs</Modal.Header>
         <Modal.Content>
           <Modal.Description />
