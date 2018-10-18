@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Button, Grid, Statistic, Container, Divider } from 'semantic-ui-react'
+import { Modal, Button, Grid, Statistic, Container, Divider, Icon } from 'semantic-ui-react'
 
 export default class Filter extends Component {
 
@@ -35,7 +35,7 @@ export default class Filter extends Component {
                   {!!this.props.returnedFilterResult[0]
                     ? 
                     <div>
-                      <Grid centered columns='equal'>
+                      <Grid centered columns={4} padded>
                         <Grid.Row centered >
                         <Grid.Column>
                           <Statistic>
@@ -44,7 +44,7 @@ export default class Filter extends Component {
                           </Statistic>
                         </Grid.Column>
                         </Grid.Row>
-                        <Grid.Row centered >
+                        <Grid.Row >
                         <Grid.Column>
                           <Statistic>
                             <Statistic.Value>#{this.props.returnedFilterResult[0].avgCrimeRank}</Statistic.Value>
@@ -66,9 +66,9 @@ export default class Filter extends Component {
                       <Container style={{ marginTop: '1em', marginBottom: '2em'}}>
                       <span>There are currently {this.props.returnedFilterResult[0].houseListing} home vacancies in this area</span>
                       </Container>
-                      <a href={`https://www.streetcheck.co.uk/postcodedistrict/${this.props.returnedFilterResult[0].postcode}#housing`} target="_blank"><Button floated='left' color='green'>More on housing</Button></a>
-                      <Button floated='right' color='purple' onClick={null}>Search Zoopla</Button>
-                      <Button color='pink' onClick={null}>Find your perfect street</Button>
+                      <a href={`https://www.streetcheck.co.uk/postcodedistrict/${this.props.returnedFilterResult[0].postcode}#housing`} target="_blank"><Button floated='left' color='green'><Icon name='window restore outline' />More on housing</Button></a>
+                      <Button color='pink'><Icon name='window restore outline' />Find your perfect street</Button>
+                      <Button floated='right' color='purple'><Icon name='window restore outline' />Search Zoopla</Button>
                       
                     </div>
                     : ''}
