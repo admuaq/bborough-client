@@ -13,7 +13,7 @@ export default class PresentedData extends Component {
       <Modal trigger={<Button>Results</Button>} closeIcon>
         <Modal.Header >{outcode} Area Detailed Breakdown</Modal.Header>
         <Modal.Content>
-          <Modal.Description>
+          <Modal.Description vertical>
             <p>Average Salary of posted jobs in area: £{averageSalaryPostedJob}</p>
             <p>Average Salary earned in borough: £{averageIncomeBorough}</p>
             <p>Percentage: {Number.parseInt((averageSalaryPostedJob/averageIncomeBorough) * 100)}% </p>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Button, Icon, Container } from 'semantic-ui-react'
+import { Modal, Button, Grid, Statistic, Container, Divider } from 'semantic-ui-react'
 
 export default class Filter extends Component {
 
@@ -9,19 +9,19 @@ export default class Filter extends Component {
 
   render () {
 
-    let salaryFilterOrder = (
-    <div>
-      <span><h1>#{this.props.returnedFilterResult[0].avgSalaryRank}</h1> in average salary (in comparison to other areas in this borough)</span>
-      <span><h1>#{this.props.returnedFilterResult[0].avgCrimeRank}</h1> lowest in crime rate</span>
-    </div>
-    )
+    // let salaryFilterOrder = (
+    // <div>
+    //   <span><h1>#{this.props.returnedFilterResult[0].avgSalaryRank}</h1> in average salary (in comparison to other areas in this borough)</span>
+    //   <span><h1>#{this.props.returnedFilterResult[0].avgCrimeRank}</h1> lowest in crime rate</span>
+    // </div>
+    // )
 
-    let crimeFilterOrder = (
-      <div>
-        <span><h1>#{this.props.returnedFilterResult[0].avgCrimeRank}</h1> lowest in crime rate</span>
-        <span><h1>#{this.props.returnedFilterResult[0].avgSalaryRank}</h1> in average salary (in comparison to other areas in this borough)</span>
-      </div>
-      )
+    // let crimeFilterOrder = (
+    //   <div>
+    //     <span><h1>#{this.props.returnedFilterResult[0].avgCrimeRank}</h1> lowest in crime rate</span>
+    //     <span><h1>#{this.props.returnedFilterResult[0].avgSalaryRank}</h1> in average salary (in comparison to other areas in this borough)</span>
+    //   </div>
+    //   )
 
     return (
       <Modal trigger={<Button>Load Results</Button>} closeIcon>
@@ -29,28 +29,61 @@ export default class Filter extends Component {
         <Modal.Content>
           <Modal.Description>
             <p>The best area in this borough for you is...<b>{this.props.returnedFilterResult[0].postcode}</b></p>
+          </Modal.Description>
               { 
-                <div>
+                <Modal.Content style={{ paddingLeft: '5em', paddingRight: '5em', marginBottom: '2em', marginBottom: '2em' }}>
                   {!!this.props.returnedFilterResult[0]
                     ? 
                     <div>
-                      <span><h1>#{this.props.returnedFilterResult[0].avgSalaryRank}</h1> in average salary (in comparison to other areas in this borough)</span><br/>
+                      <Grid centered columns='equal'>
+                        <Grid.Row centered >
+                        <Grid.Column>
+                          <Statistic>
+                            <Statistic.Value>#{this.props.returnedFilterResult[0].avgSalaryRank}</Statistic.Value>
+                            <Statistic.Label>in average salary (compared to other areas in this borough)  </Statistic.Label>
+                          </Statistic>
+                        </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row centered >
+                        <Grid.Column>
+                          <Statistic>
+                            <Statistic.Value>#{this.props.returnedFilterResult[0].avgCrimeRank}</Statistic.Value>
+                            <Statistic.Label>lowest in crime rate</Statistic.Label>
+                          </Statistic>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Statistic>
+                            <Statistic.Value>#{this.props.returnedFilterResult[0].avgRankTotal}</Statistic.Value>
+                            <Statistic.Label>Average Rank Total</Statistic.Label>
+                          </Statistic>
+                        </Grid.Column>
+                        </Grid.Row>
+                      </Grid>
+                      {/* <span><h1>#{this.props.returnedFilterResult[0].avgSalaryRank}</h1> in average salary (in comparison to other areas in this borough)</span><br/>
                       <span><h1>#{this.props.returnedFilterResult[0].avgCrimeRank}</h1> lowest in crime rate</span><br/>
+                      <span><h1>#{this.props.returnedFilterResult[0].avgRankTotal}</h1> overall</span> */}
+                      <Divider />
+                      <Container style={{ marginTop: '1em', marginBottom: '2em'}}>
+                      <span>There are currently {this.props.returnedFilterResult[0].houseListing} home vacancies in this area</span>
+                      </Container>
+                      <a href={`https://www.streetcheck.co.uk/postcodedistrict/${this.props.returnedFilterResult[0].postcode}#housing`} target="_blank"><Button floated='left' color='green'>More on housing</Button></a>
+                      <Button floated='right' color='purple' onClick={null}>Search Zoopla</Button>
+                      <Button color='pink' onClick={null}>Find your perfect street</Button>
+                      
                     </div>
                     : ''}
-                </div>
+                </Modal.Content>
               }
-          </Modal.Description>
-          <Container style={{marginTop: '2em', marginBottom: '2em'}}>
-            <Button color='blue'>Compare with other Borough</Button>
-            <Button color='green' onClick={null}>
-            Compare all Postcodes in Borough</Button>
-            <Button icon floated='right'>
-              <Icon name='print' /> Print
-            </Button>
-          </Container>
+          {/* <Container style={{marginTop: '2em', marginBottom: '2em'}}>
+            <Button color='blue' onClick={null}>Compare with other Borough</Button>
+            <Button color='green' onClick={null}>Compare all Postcodes in Borough</Button>
+            <Button color='purple' onClick={null}>Search Zoopla</Button><br />
+            <Button color='blue' onClick={null}>Search Reed</Button><br />
+          </Container> */}
         </Modal.Content>
       </Modal>
     )
   }
 }
+
+// https://www.streetcheck.co.uk/postcodedistrict/sw16#housing

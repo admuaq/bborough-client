@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import { Container, Checkbox, Modal, Icon, Grid, Header, Image, List, 
+import { Container, Checkbox, Icon, Dimmer, Header, Image, List, 
   Menu, Segment, Button } from 'semantic-ui-react'
 
 import BoroughDropdown from './containers/BoroughDropdown'
@@ -29,8 +29,7 @@ class App extends Component {
 
   handleBoroughClick = (boroughName) => {
     let borough = boroughName
-    // clear up any classes that may exist
-    // set the class of the selected borough to :hover
+  
     this.renderPostcodes(borough)
   }
 
@@ -41,10 +40,14 @@ class App extends Component {
 
   renderPostcodes = (borough) => {
     console.log(borough)
+    if (this.showModal === true){
+      
+    }
+    else {
     let foundBorough = this.state.data.find( fb => fb.name === borough )
     this.setState({ ...this.state, 
       selectedBorough: foundBorough,
-      showCheckbox: true})
+      showCheckbox: true})}
   }
 
   renderResults = (areacode) => {
@@ -64,17 +67,19 @@ class App extends Component {
     : this.setState({...this.state, showCheckbox: false})
   }
 
-  onSelectCheckbox = (filter) => {
+  onSelectCheckbox = (filter,e) => {
     // this.setState( {...this.state, selectedFilter: filter, showModal: true})
 
     let postcodes
     let mainResult 
     let crimeResult
-    let postcode
     let crimeRateIndex
     let stats
     let avgSalaryResult
     let avgSalaryIndex
+    let avgRankTotal
+    // let houseResult  Home quality?
+    // let houseIndex
 
     if (filter === 'by average salary (of posted jobs)'){
       postcodes = this.state.selectedBorough.postcodes
@@ -86,7 +91,10 @@ class App extends Component {
       console.log('crimeResult', crimeResult)
       console.log('crimeRateIndex', crimeRateIndex)
 
-      stats = [{ postcode: mainResult.outcode, avgSalaryRank: 1, avgCrimeRank: crimeRateIndex + 1 }]
+      // add the ranks of each criteria up
+      avgRankTotal = (1 + (crimeRateIndex + 1))/2
+
+      stats = [{ postcode: mainResult.outcode, avgSalaryRank: 1, avgCrimeRank: crimeRateIndex + 1, houseListing: mainResult.houseListings, avgRankTotal}]
 
       this.setState( {...this.state, selectedFilter: filter, showModal: true, filterResult: stats } )
      }
@@ -96,8 +104,11 @@ class App extends Component {
       avgSalaryResult = this.state.selectedBorough.postcodes.sort( (a,b) => b.averageSalaryPostedJob - a.averageSalaryPostedJob)
 
       avgSalaryIndex = avgSalaryResult.indexOf(mainResult)
+      
+      // add the ranks of each criteria up
+      avgRankTotal = 1 + (avgSalaryIndex + 1)
 
-      stats = [{ postcode: mainResult.outcode, avgSalaryRank: avgSalaryIndex + 1, avgCrimeRank: 1 }]
+      stats = [{ postcode: mainResult.outcode, avgSalaryRank: avgSalaryIndex + 1, avgCrimeRank: 1 , houseListing: mainResult.houseListings, avgRankTotal}]
 
       this.setState( {...this.state, selectedFilter: filter, showModal: true, filterResult: stats } )
      }
@@ -130,11 +141,12 @@ class App extends Component {
 
     return (
       <div className='App'>
-        <Menu fixed='top' inverted>
+        <Menu fixed='top'>
           <Container>
           </Container>
         </Menu>
-        <Container style={{ marginTop: '7em', marginBottom: '2em'}}>
+        <Header style={{ marginTop: '4em', marginBottom: '2em'}}>Bborough - Helping you to find the perfect place to live</Header>
+        <Container>
           <LondonBoroughs handleBoroughClick={this.handleBoroughClick}/>
         </Container>
         <Container style={{ marginTop: '2em', marginBottom: '2em'}}>
@@ -148,7 +160,7 @@ class App extends Component {
           <div>
           <span>Area by:</span><br/>
           <Checkbox key={1} label='by average salary (of posted jobs)' onChange={(e) => {
-            this.onSelectCheckbox(e.target.innerText)}}/> 
+            this.onSelectCheckbox(e.target.innerText, e)}}/> 
           <Checkbox label='by crime rate' onChange={(e) => {
             this.onSelectCheckbox(e.target.innerText)}}/> 
           <Checkbox label='by best school results' onChange={(e) => {
