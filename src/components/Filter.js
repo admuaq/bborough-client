@@ -12,7 +12,8 @@ export default class Filter extends Component {
   render () {
 
     return (
-      <Modal trigger={!this.props.loaded 
+      <Modal trigger={
+        !this.props.loaded 
         ?<Button onClick={ () => this.props.toggleLoader()}>Load Results</Button>
         : <div><p>Results loaded!</p><Button>Show Results</Button></div>} closeIcon onClose={() => this.props.clearFilterResult()}>
         <Modal.Header >Results</Modal.Header>

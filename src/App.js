@@ -58,7 +58,8 @@ class App extends Component {
   }
 
   clearFilterResult = () => {
-    this.setState( {...this.state, selectedFilter: '', showModal: false,} )
+    this.setState( {...this.state, selectedBorough: {},
+      selectedArea: {}, selectedFilter: '', showModal: false, showCheckbox: false} )
   }
 
   renderResults = (areacode) => {
