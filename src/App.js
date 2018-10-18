@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import { Container, Checkbox, Icon, Dimmer, Header, Image, List, 
+import { Container, Checkbox, Icon, Dimmer, Header, Loader, List, 
   Menu, Segment, Button } from 'semantic-ui-react'
 
 import BoroughDropdown from './containers/BoroughDropdown'
@@ -17,6 +17,8 @@ class App extends Component {
     selectedArea: {},
     showCheckbox: false,
     showModal: false,
+    loading: true,
+    loaded: false,
     selectedFilter: '',
     filterResult: []
   }
@@ -24,7 +26,12 @@ class App extends Component {
   fetchData = () => {
     fetch('http://localhost:3000/boroughs')
     .then( resp => resp.json())
-    .then( boroughData => this.setState({ data: boroughData }) )
+    .then( boroughData => 
+      this.setState(
+        { data: boroughData }, 
+        () => this.setState( { ...this.state, loading: !this.state.loading})
+        ) 
+      )
   }
 
   handleBoroughClick = (boroughName) => {
@@ -50,6 +57,10 @@ class App extends Component {
       showCheckbox: true})}
   }
 
+  clearFilterResult = () => {
+    this.setState( {...this.state, selectedFilter: '', showModal: false,} )
+  }
+
   renderResults = (areacode) => {
     // console.log(areacode)
     let foundAreacode = this.state.selectedBorough.postcodes.find( fa => fa.outcode === areacode )
@@ -58,6 +69,16 @@ class App extends Component {
       selectedArea: foundAreacode,
       showCheckbox: true })
       
+  }
+
+  toggleLoader = () => {
+    if (this.state.loaded === false ){
+    this.setState( { ...this.state, loading: !this.state.loading})
+    setTimeout(() => this.setState({ ...this.state, loaded: true, loading: !this.state.loading}), 1000)
+
+    } else {
+      return 
+    }
   }
 
   toggleShow = () => {
@@ -96,7 +117,7 @@ class App extends Component {
 
       stats = [{ postcode: mainResult.outcode, avgSalaryRank: 1, avgCrimeRank: crimeRateIndex + 1, houseListing: mainResult.houseListings, avgRankTotal}]
 
-      this.setState( {...this.state, selectedFilter: filter, showModal: true, filterResult: stats } )
+      this.setState( {...this.state, loaded: false, loading:false, selectedFilter: filter, showModal: true, filterResult: stats } )
      }
      else if (filter === 'by crime rate'){
       postcodes = this.state.selectedBorough.postcodes
@@ -110,7 +131,7 @@ class App extends Component {
 
       stats = [{ postcode: mainResult.outcode, avgSalaryRank: avgSalaryIndex + 1, avgCrimeRank: 1 , houseListing: mainResult.houseListings, avgRankTotal}]
 
-      this.setState( {...this.state, selectedFilter: filter, showModal: true, filterResult: stats } )
+      this.setState( {...this.state, loaded: false, loading:false, selectedFilter: filter, showModal: true, filterResult: stats } )
      }
      else {
        return
@@ -135,11 +156,18 @@ class App extends Component {
 
   componentDidMount(){
     this.fetchData()
+    // this.toggleLoader()
   }
 
   render () {
 
     return (
+      this.state.loading
+      ?
+      <Dimmer active>
+          <Loader indeterminate>Loading</Loader>
+      </Dimmer>
+      :
       <div className='App'>
         <Menu fixed='top'>
           <Container>
@@ -175,7 +203,10 @@ class App extends Component {
           ? <Filter 
             onSelectedFilter={this.chooseFilterConditionResult}
             filterCondition={this.state.selectedFilter}
-            returnedFilterResult={this.state.filterResult}/>
+            returnedFilterResult={this.state.filterResult}
+            toggleLoader = {this.toggleLoader}
+            loaded={this.state.loaded}
+            clearFilterResult={this.clearFilterResult}/>
             :
             <div></div>
           }

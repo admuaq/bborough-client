@@ -1,30 +1,20 @@
 import React, { Component } from 'react'
-import { Modal, Button, Grid, Statistic, Container, Divider, Icon } from 'semantic-ui-react'
+import { Modal, Button, Grid, Statistic, 
+        Container, Divider, Icon, Segment,
+        Dimmer, Loader } from 'semantic-ui-react'
 
 export default class Filter extends Component {
 
-    state = { filterResult1: '',
-              filterResult2: '',
-              filterResult3: '' }
+    state = { }
+
+    
 
   render () {
 
-    // let salaryFilterOrder = (
-    // <div>
-    //   <span><h1>#{this.props.returnedFilterResult[0].avgSalaryRank}</h1> in average salary (in comparison to other areas in this borough)</span>
-    //   <span><h1>#{this.props.returnedFilterResult[0].avgCrimeRank}</h1> lowest in crime rate</span>
-    // </div>
-    // )
-
-    // let crimeFilterOrder = (
-    //   <div>
-    //     <span><h1>#{this.props.returnedFilterResult[0].avgCrimeRank}</h1> lowest in crime rate</span>
-    //     <span><h1>#{this.props.returnedFilterResult[0].avgSalaryRank}</h1> in average salary (in comparison to other areas in this borough)</span>
-    //   </div>
-    //   )
-
     return (
-      <Modal trigger={<Button>Load Results</Button>} closeIcon>
+      <Modal trigger={!this.props.loaded 
+        ?<Button onClick={ () => this.props.toggleLoader()}>Load Results</Button>
+        : <div><p>Results loaded!</p><Button>Show Results</Button></div>} closeIcon onClose={() => this.props.clearFilterResult()}>
         <Modal.Header >Results</Modal.Header>
         <Modal.Content>
           <Modal.Description>
@@ -74,12 +64,6 @@ export default class Filter extends Component {
                     : ''}
                 </Modal.Content>
               }
-          {/* <Container style={{marginTop: '2em', marginBottom: '2em'}}>
-            <Button color='blue' onClick={null}>Compare with other Borough</Button>
-            <Button color='green' onClick={null}>Compare all Postcodes in Borough</Button>
-            <Button color='purple' onClick={null}>Search Zoopla</Button><br />
-            <Button color='blue' onClick={null}>Search Reed</Button><br />
-          </Container> */}
         </Modal.Content>
       </Modal>
     )
