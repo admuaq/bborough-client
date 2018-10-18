@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import './App.css'
-import { Container, Checkbox, Icon, Dimmer, Header, Loader, List, 
+import { Container, Checkbox, Icon, Dimmer, Header, Loader, Grid, 
   Menu, Segment, Button } from 'semantic-ui-react'
 
-import BoroughDropdown from './containers/BoroughDropdown'
-import PostcodeDropdown from './containers/PostcodeDropdown'
-import PresentedData from './components/presentedData'
+import CompareBoroughData from './components/CompareBoroughData'
 import Filter from './components/Filter'
 import LondonBoroughs from './components/londonBoroughs'
 
@@ -175,44 +173,47 @@ class App extends Component {
           </Container>
         </Menu>
         <Header style={{ marginTop: '4em', marginBottom: '2em'}}>Bborough - Helping you to find the perfect place to live</Header>
-        <Container>
-          <LondonBoroughs handleBoroughClick={this.handleBoroughClick}/>
-        </Container>
-        <Container style={{ marginTop: '2em', marginBottom: '2em'}}>
-          {
-            !!this.state.selectedBorough.name && `Borough: ${this.state.selectedBorough.name}`
-          }
-          <br/>
-          <p/>
-          { this.state.showCheckbox
-          ? 
-          <div>
-          <span>Area by:</span><br/>
-          <Checkbox key={1} label='by average salary (of posted jobs)' onChange={(e) => {
-            this.onSelectCheckbox(e.target.innerText, e)}}/> 
-          <Checkbox label='by crime rate' onChange={(e) => {
-            this.onSelectCheckbox(e.target.innerText)}}/> 
-          <Checkbox label='by best school results' onChange={(e) => {
-            this.onSelectCheckbox(e.target.innerText)}}/> 
-          <Checkbox label='by number of parks' onChange={(e) => {
-            this.onSelectCheckbox(e.target.innerText)}}/>
-          </div> 
-          : <span>Pick a borough</span> }
-          
-          <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
-          {this.state.showModal 
-          ? <Filter 
-            onSelectedFilter={this.chooseFilterConditionResult}
-            filterCondition={this.state.selectedFilter}
-            returnedFilterResult={this.state.filterResult}
-            toggleLoader = {this.toggleLoader}
-            loaded={this.state.loaded}
-            clearFilterResult={this.clearFilterResult}/>
-            :
-            <div></div>
-          }
+          <Container>
+            <LondonBoroughs handleBoroughClick={this.handleBoroughClick}/>
           </Container>
-        </Container>
+          <Container style={{ marginTop: '2em', marginBottom: '2em'}}>
+            {
+              !!this.state.selectedBorough.name && `Borough: ${this.state.selectedBorough.name}`
+            }
+            <br/>
+            <p/>
+            { this.state.showCheckbox
+            ? 
+            <div>
+            <span>Area by:</span><br/>
+            <Checkbox key={1} label='by average salary (of posted jobs)' onChange={(e) => {
+              this.onSelectCheckbox(e.target.innerText, e)}}/> 
+            <Checkbox label='by crime rate' onChange={(e) => {
+              this.onSelectCheckbox(e.target.innerText)}}/> 
+            <Checkbox label='by best school results' onChange={(e) => {
+              this.onSelectCheckbox(e.target.innerText)}}/> 
+            <Checkbox label='by number of parks' onChange={(e) => {
+              this.onSelectCheckbox(e.target.innerText)}}/>
+            </div> 
+            : <span>Pick a borough</span> }
+            
+            <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
+            {this.state.showModal 
+            ? <Filter 
+              onSelectedFilter={this.chooseFilterConditionResult}
+              filterCondition={this.state.selectedFilter}
+              returnedFilterResult={this.state.filterResult}
+              toggleLoader = {this.toggleLoader}
+              loaded={this.state.loaded}
+              clearFilterResult={this.clearFilterResult}/>
+              :
+              <div></div>
+            }
+            </Container>
+          </Container>
+          <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
+            <CompareBoroughData />
+          </Container>
       </div>
     )
   }
