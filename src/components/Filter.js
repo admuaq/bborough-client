@@ -15,7 +15,7 @@ export default class Filter extends Component {
       <Modal trigger={
         !this.props.loaded 
         ?<Button onClick={ () => this.props.toggleLoader()}>Load Results</Button>
-        : <div><p>Results loaded!</p><Button>Show Results</Button></div>} closeIcon onClose={() => this.props.clearFilterResult()}>
+        : <div><h1>Results loaded!</h1><Button>Show Me!!!</Button></div>} closeIcon onClose={() => this.props.clearFilterResult()}>
         <Modal.Header >Results</Modal.Header>
         <Modal.Content>
           <Modal.Description>
@@ -58,8 +58,8 @@ export default class Filter extends Component {
                       <span>There are currently {this.props.returnedFilterResult[0].houseListing} home vacancies in this area</span>
                       </Container>
                       <a href={`https://www.streetcheck.co.uk/postcodedistrict/${this.props.returnedFilterResult[0].postcode}#housing`} target="_blank"><Button floated='left' color='green'><Icon name='window restore outline' />More on housing</Button></a>
-                      <Button color='pink'><Icon name='window restore outline' />Find your perfect street</Button>
-                      <Button floated='right' color='purple'><Icon name='window restore outline' />Search Zoopla</Button>
+                      <a href={`https://www.streetcheck.co.uk/postcode/startingwith/${this.props.returnedFilterResult[0].postcode}`}target="_blank"><Button color='pink'><Icon name='window restore outline' />Find your perfect street</Button></a>
+                      <a href={`https://www.zoopla.co.uk/for-sale/property/london/${this.props.returnedFilterResult[0].postcode}`} target="_blank"><Button floated='right' color='purple'><Icon name='window restore outline' />Search Zoopla</Button></a>
                       
                     </div>
                     : ''}

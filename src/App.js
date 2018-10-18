@@ -75,7 +75,7 @@ class App extends Component {
   toggleLoader = () => {
     if (this.state.loaded === false ){
     this.setState( { ...this.state, loading: !this.state.loading})
-    setTimeout(() => this.setState({ ...this.state, loaded: true, loading: !this.state.loading}), 1000)
+    setTimeout(() => this.setState({ ...this.state, loaded: true, loading: !this.state.loading}), 500)
 
     } else {
       return 

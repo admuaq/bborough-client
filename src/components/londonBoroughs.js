@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+// import { Popup, Card, Rating, Icon } from 'semantic-ui-react'
 import '../borough.css'
 
 class LondonBoroughs extends Component {
@@ -22,6 +23,28 @@ class LondonBoroughs extends Component {
   }
 
   render () {
+
+    // const Borough = (
+    //   <Card>
+    //     <Card.Content>
+    //       <Card.Header>My Neighbor Totoro</Card.Header>
+    //       <Card.Description>
+    //         Two sisters move to the country with their father in order to be closer to their
+    //         hospitalized mother, and discover the surrounding trees are inhabited by magical spirits.
+    //       </Card.Description>
+    //     </Card.Content>
+    //   </Card>
+    // )
+    
+    // const BoroughStats = () => (
+    //   <Popup trigger={Borough}>
+    //     <Popup.Header>User Rating</Popup.Header>
+    //     <Popup.Content>
+    //       <Rating icon='star' defaultRating={3} maxRating={4} />
+    //     </Popup.Content>
+    //   </Popup>
+    // )
+
     return (
       <svg xmlns='http://www.w3.org/2000/svg' width='477.523' height='369.95'><defs>
         <clipPath>
