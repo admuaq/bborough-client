@@ -4,23 +4,27 @@ import { Container, Checkbox, Icon, Dimmer, Header, Loader, Grid,
   Menu, Segment, Button } from 'semantic-ui-react'
 
 import CompareBoroughData from './components/CompareBoroughData'
-import Filter from './components/Filter'
-import LondonBoroughs from './components/londonBoroughs'
+import LondonBoroughs from './components/LondonBoroughs'
+import ResultsComponent from './components/ResultsComponent'
+
 
 class App extends Component {
-
-  state = { 
-    data: [],
-    selectedBorough: {},
-    selectedArea: {},
-    showCheckbox: false,
-    showModal: false,
-    loading: true,
-    loaded: false,
-    selectedFilter: '',
-    filterResult: []
+  constructor() {
+    super()
+    this.state = { 
+      data: [],
+      selectedBorough: {},
+      selectedArea: {},
+      showCheckbox: false,
+      showModal: false,
+      loading: true,
+      loaded: false,
+      possibleOptions: ['averageSalaryPostedJob', 'crimeRate', 'houseListings'],
+      selectedFilters: [],
+      filterResult: []
+    }
   }
-
+  
   fetchData = () => {
     fetch('http://localhost:3000/boroughs')
     .then( resp => resp.json())
@@ -38,10 +42,10 @@ class App extends Component {
     this.renderPostcodes(borough)
   }
 
-  handlePostcodeClick = (e) => {
-    let areacode = e.target.value
-    this.renderResults(areacode)
-  }
+  // handlePostcodeClick = (e) => {
+  //   let areacode = e.target.value
+  //   this.renderResults(areacode)
+  // }
 
   renderPostcodes = (borough) => {
     console.log(borough)
@@ -57,18 +61,18 @@ class App extends Component {
 
   clearFilterResult = () => {
     this.setState( {...this.state, selectedBorough: {},
-      selectedArea: {}, selectedFilter: '', showModal: false, loaded: false, showCheckbox: false} )
+      selectedArea: {}, selectedFilters: [], showModal: false, loaded: false, showCheckbox: false} )
   }
 
-  renderResults = (areacode) => {
-    // console.log(areacode)
-    let foundAreacode = this.state.selectedBorough.postcodes.find( fa => fa.outcode === areacode )
-    // this.toggleShow(areacode)
-    this.setState({ ...this.state, 
-      selectedArea: foundAreacode,
-      showCheckbox: true })
+  // renderResults = (areacode) => {
+  //   // console.log(areacode)
+  //   let foundAreacode = this.state.selectedBorough.postcodes.find( fa => fa.outcode === areacode )
+  //   // this.toggleShow(areacode)
+  //   this.setState({ ...this.state, 
+  //     selectedArea: foundAreacode,
+  //     showCheckbox: true })
       
-  }
+  // }
 
   toggleLoader = () => {
     if (this.state.loaded === false ){
@@ -81,81 +85,81 @@ class App extends Component {
   }
 
   toggleShow = () => {
-    // console.log(this.state)
+    
     !this.state.showCheckbox 
     ? this.setState({...this.state, showCheckbox: true})
     : this.setState({...this.state, showCheckbox: false})
   }
 
-  onSelectCheckbox = (filter,e) => {
-    // this.setState( {...this.state, selectedFilter: filter, showModal: true})
+  sortedPostcodes = (postcodes) => {
 
-    let postcodes
-    let mainResult 
-    let crimeResult
-    let crimeRateIndex
-    let stats
-    let avgSalaryResult
-    let avgSalaryIndex
-    let avgRankTotal
-    // let houseResult  Home quality?
-    // let houseIndex
+    let options = this.state.selectedFilters
 
-    if (filter === 'by average salary (of posted jobs)'){
-      postcodes = this.state.selectedBorough.postcodes
-      mainResult = postcodes.sort( (a,b) => b.averageSalaryPostedJob - a.averageSalaryPostedJob )[0]
-      crimeResult = this.state.selectedBorough.postcodes.sort( (a,b) => a.crimeRate - b.crimeRate)
+    const optionSortMethods = {
+      averageSalaryPostedJob: 'asc',
+      houseListings: 'asc',
+      crimeRate: 'desc'
+    }
 
-      crimeRateIndex = crimeResult.indexOf(mainResult)
-      console.log('mainResult', mainResult)
-      console.log('crimeResult', crimeResult)
-      console.log('crimeRateIndex', crimeRateIndex)
+      if (this.state.selectedFilters.length === 0) return postcodes;
 
-      // add the ranks of each criteria up
-      avgRankTotal = (1 + (crimeRateIndex + 1))/2
-
-      stats = [{ postcode: mainResult.outcode, avgSalaryRank: 1, avgCrimeRank: crimeRateIndex + 1, houseListing: mainResult.houseListings, avgRankTotal}]
-
-      this.setState( {...this.state, loaded: false, loading:false, selectedFilter: filter, showModal: true, filterResult: stats } )
-     }
-     else if (filter === 'by crime rate'){
-      postcodes = this.state.selectedBorough.postcodes
-      mainResult = postcodes.sort( (a,b) => a.crimeRate - b.crimeRate )[0]
-      avgSalaryResult = this.state.selectedBorough.postcodes.sort( (a,b) => b.averageSalaryPostedJob - a.averageSalaryPostedJob)
-
-      avgSalaryIndex = avgSalaryResult.indexOf(mainResult)
+      const postcodeToDifference = (averages, options) => {
+        return (postcode) =>
+          options.reduce((sum, option) => {
+            return sum + (optionSortMethods[option] === 'asc' ? 
+              postcode[option] / averages[option] : 
+              averages[option] / postcode[option])
+          }, 0)
+      }
+  
+      const compareTwoPostcodes = (averages, options) => {
+        const getDifference = postcodeToDifference(averages, options)
+        return (pa, pb) => getDifference(pb) - getDifference(pa)
+      }
       
-      // add the ranks of each criteria up
-      avgRankTotal = 1 + (avgSalaryIndex + 1)
-
-      stats = [{ postcode: mainResult.outcode, avgSalaryRank: avgSalaryIndex + 1, avgCrimeRank: 1 , houseListing: mainResult.houseListings, avgRankTotal}]
-
-      this.setState( {...this.state, loaded: false, loading:false, selectedFilter: filter, showModal: true, filterResult: stats } )
-     }
-     else {
-       return
-     }
+      const getAverages = postcodes => {
+        const totals = postcodes.reduce((totals, postcode, i) => {
+          if (Object.keys(totals).length === 0) return Object.assign(totals, postcode)
+          
+  
+          Object.keys(postcode)
+            .map(key => {
+              totals[key] += postcode[key]
+            })
+  
+          return totals
+        }, {})
+  
+        return Object.keys(totals)
+          .reduce((averages, key) => {
+            averages[key] = totals[key] / postcodes.length
+            return averages
+          }, {})
+      }
+      
+      return postcodes.sort(compareTwoPostcodes(getAverages(postcodes), this.state.selectedFilters))
   }
+  
 
-  // chooseFilterConditionResult = () => {
 
-  //   if (this.state.selectedFilter === 'by average salary (of posted jobs)'){
-  //    let mainResult = this.state.selectedBorough.postcodes.sort( (a,b) => b.averageSalaryPostedJob - a.averageSalaryPostedJob)
-  //    let crimeResult = this.state.selectedBorough.postcodes.sort( (a,b) => a.crimeRate - b.crimeRate)
-  //    let crimeRateIndex = crimeResult.findIndex(this.state.selectedBorough)
-
-  //    let stats = [{ avgSalaryRank: 1, avgCrimeRank: crimeRateIndex + 1 }]
-  //     this.setState( { ...this.state, filterResult: stats } )
-  //   }
-  //   else {
-  //     return
-  //   }
-
-  // }
+  onSelectCheckbox = (option) => { 
+ 
+      if (!this.state.selectedFilters.includes(option)){
+        this.setState({ 
+          ...this.state, showModal: true,
+          selectedFilters: [...this.state.selectedFilters, option]
+        })
+      }
+      else {
+        this.setState({
+          ...this.state,
+            selectedFilters: this.state.selectedFilters.filter( o => o !== option )
+        })
+ }
+}
 
   componentDidMount(){
     this.fetchData()
-    // this.toggleLoader()
   }
 
   render () {
@@ -186,26 +190,25 @@ class App extends Component {
             ? 
             <div>
             <span>Area by:</span><br/>
-            <Checkbox key={1} label='by average salary (of posted jobs)' onChange={(e) => {
-              this.onSelectCheckbox(e.target.innerText, e)}}/> 
-            <Checkbox label='by crime rate' onChange={(e) => {
-              this.onSelectCheckbox(e.target.innerText)}}/> 
-            <Checkbox label='by best school results' onChange={(e) => {
-              this.onSelectCheckbox(e.target.innerText)}}/> 
-            <Checkbox label='by number of parks' onChange={(e) => {
-              this.onSelectCheckbox(e.target.innerText)}}/>
+            {
+              this.state.possibleOptions.map( option =>
+                <Checkbox label={option} onChange={(e) =>
+                  this.onSelectCheckbox(e.target.innerText)}/>
+              )
+            }
             </div> 
             : <div><span>Pick a borough</span><br/><span>or</span></div> }
             
             <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
             {this.state.showModal 
-            ? <Filter 
-              onSelectedFilter={this.chooseFilterConditionResult}
-              filterCondition={this.state.selectedFilter}
+              ? <ResultsComponent 
+              filterResult={this.sortedPostcodes}
+              postcodes={this.state.selectedBorough.postcodes}
+              clearFilterResult={this.clearFilterResult}
+              usedFilters={this.state.selectedFilters}
               returnedFilterResult={this.state.filterResult}
-              toggleLoader = {this.toggleLoader}
-              loaded={this.state.loaded}
-              clearFilterResult={this.clearFilterResult}/>
+              findRank={this.findRank}/>
+              
               :
               <div></div>
             }
