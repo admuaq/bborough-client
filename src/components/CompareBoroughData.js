@@ -17,29 +17,19 @@ class CompareBoroughData extends Component {
         revealed: false
         }
   }
-  // this.renderPostcodes(e.target.innerText)
-  // renderPostcodes = (boroughName) => {
-  //   let borough = this.props.boroughs.find( borough => borough.name === boroughName )
-
-  //   let boroughPostcodes = []
-
-  //   borough.postcodes.map( postcode => boroughPostcodes.push({ 'text': postcode.outcode, 'value':postcode.outcode }))
-   
-  //   this.setState({...this.state, selectedBorough: borough, postcodes: boroughPostcodes, boroughSelected: true })
-  
-  // }
+ 
 
   onSelect = (e, boroughs) => {
     let dropdownBox = e.target.parentElement.parentElement.className.split(" ")[6]
     let selectedItem = e.target.textContent
     
     if (dropdownBox === 'first-borough') {
-      let foundBorough = boroughs.filter( borough => borough.name === selectedItem )
-      this.setState({...this.state, selectedBoroughs: [...this.state.selectedBoroughs, foundBorough], firstBoroughSelected: true })
+      let foundBorough = boroughs.find( borough => borough.name === selectedItem )
+      this.setState({...this.state, selectedBoroughs: [foundBorough,...this.state.selectedBoroughs.slice(1)], firstBoroughSelected: true })
     }
     else if (dropdownBox === 'second-borough') {
-      let foundBorough = boroughs.filter( borough => borough.name === selectedItem )
-      this.setState({...this.state, selectedBoroughs: [...this.state.selectedBoroughs, foundBorough], secondBoroughSelected: true })
+      let foundBorough = boroughs.find( borough => borough.name === selectedItem )
+      this.setState({...this.state, selectedBoroughs: [...this.state.selectedBoroughs.slice(0,1), foundBorough], secondBoroughSelected: true })
     }
     else
     {
@@ -57,7 +47,7 @@ class CompareBoroughData extends Component {
     {
       console.log(this.state.firstBorough) 
       console.log(this.state.secondBorough)
-      this.setState({...this.state, revealed: true })
+      this.setState({...this.state, revealed: true})
     }
     else
     {
@@ -75,6 +65,18 @@ class CompareBoroughData extends Component {
 
   render () {
     // {text: 'Barking and Dagenham', value: 'Barking and Dagenham'}
+    
+    const filteredBoroughs = 
+    this.state.firstBoroughSelected || this.state.secondBoroughSelected
+    ?
+    boroughNames
+      .filter(borough =>
+        this.state.selectedBoroughs.length > 0 &&
+        this.state.selectedBoroughs[0].name !== borough.text
+      )
+    :
+    boroughNames
+
     return (
       <Modal trigger={<Button >Compare boroughs</Button>} closeIcon onClose={()=> this.clearFilterResult()} >
         <Modal.Header>Compare Boroughs</Modal.Header>
@@ -87,12 +89,12 @@ class CompareBoroughData extends Component {
               </Grid.Column>
               <Grid.Column >
                 <p>Borough: 2</p>
-                {/* {
-                  this.state.boroughSelected
-                  ? <Dropdown placeholder='Select Postcode' fluid selection options={this.state.postcodes} />
-                  : <Dropdown placeholder='Select Postcode' fluid selection options={this.state.postcodes} disabled/>
-                } */}
-                <Dropdown closeOnChange placeholder='Select 2nd Borough' className='second-borough' fluid selection options={boroughNames} onChange={(e) => this.onSelect(e, this.props.boroughs)}/>
+                {
+                  this.state.firstBoroughSelected
+                  ?  <Dropdown closeOnChange placeholder='Select 2nd Borough' className='second-borough' fluid selection options={boroughNames} onChange={(e) => this.onSelect(e, this.props.boroughs)}/>
+                  : <Dropdown placeholder='Select Postcode' fluid selection options={boroughNames} disabled/>
+                }
+               
               </Grid.Column>
                 <Button compact size='tiny' floated='right' onClick={() => this.handleCompare()}>Compare</Button>
             </Grid.Row>

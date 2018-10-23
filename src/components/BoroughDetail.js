@@ -3,14 +3,12 @@ import React from 'react'
 const BoroughDetail = (props) => {
   return (
     <div>
-      {props.boroughData.map(data =>
-        <ul key={data.id}>
-          <li>id: {data.id}</li>
-          <li>name: {data.name}</li>
-          <li>avgInc: {data.averageIncomeBorough}</li>
-        </ul>
-      )}
-      {console.log(props)}
+      {console.log(props.boroughData.id)}
+      <ul key={props.boroughData.id}>
+        <li>id: {props.boroughData.id}</li>
+        <li>name: {props.boroughData.name}</li>
+        <li>avgInc: {props.boroughData.averageIncomeBorough}</li>
+      </ul>
     </div>
   )
 }

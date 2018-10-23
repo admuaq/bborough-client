@@ -8,7 +8,7 @@ export default class ResultsComponent extends Component {
     state = { stats: {} }
 
     findRank = postcode => {
-      let boroughPostcodes = this.props.postcodes
+      let boroughPostcodes = this.props.borough.postcodes
   
       let sortByCrime = boroughPostcodes.slice().sort((a,b) => a.crimeRate - b.crimeRate)
       console.log('Crime Array:', sortByCrime)
@@ -28,7 +28,7 @@ export default class ResultsComponent extends Component {
 
   render () {
 
-    let result = this.props.filterResult([...this.props.postcodes])
+    let result = this.props.filterResult([...this.props.borough.postcodes])
     let indexMedian = Math.ceil(((result.length + 1) / 2 ))
     let found = this.props.usedFilters.length > 1 
     ? result.slice(indexMedian -1,indexMedian)
@@ -51,6 +51,7 @@ export default class ResultsComponent extends Component {
                 <Modal.Content style={{ paddingLeft: '5em', paddingRight: '5em', marginBottom: '2em', marginBottom: '2em' }}>
                 {
                 found.map(postcode => { 
+                  let percentage = Math.ceil(((postcode.averageSalaryPostedJob/this.props.borough.averageIncomeBorough) * 100))
                   return (
                   <div>
                     <p><h1>{postcode.outcode}</h1></p>
@@ -60,6 +61,7 @@ export default class ResultsComponent extends Component {
                         <Statistic>
                           <Statistic.Value>#{this.state.stats.salaryRank}</Statistic.Value>
                           <Statistic.Label>in average salary (compared to other areas in this borough)  </Statistic.Label>
+                          <p>This is {percentage}% {percentage > 100 ? 'higher than the borough average!!!' : 'of the borough average.' } </p>
                         </Statistic>
                       </Grid.Column>
                       </Grid.Row>

@@ -64,16 +64,6 @@ class App extends Component {
       selectedArea: {}, selectedFilters: [], showModal: false, loaded: false, showCheckbox: false} )
   }
 
-  // renderResults = (areacode) => {
-  //   // console.log(areacode)
-  //   let foundAreacode = this.state.selectedBorough.postcodes.find( fa => fa.outcode === areacode )
-  //   // this.toggleShow(areacode)
-  //   this.setState({ ...this.state, 
-  //     selectedArea: foundAreacode,
-  //     showCheckbox: true })
-      
-  // }
-
   toggleLoader = () => {
     if (this.state.loaded === false ){
     this.setState( { ...this.state, loading: !this.state.loading})
@@ -176,7 +166,8 @@ class App extends Component {
           <Container>
           </Container>
         </Menu>
-        <Header style={{ marginTop: '4em', marginBottom: '2em'}}>Bborough - Helping you to find the perfect place to live</Header>
+        <Header as='h1' style={{ marginTop: '1em', fontFamily: 'Satisfy', fontSize: '100px'}}>Bborough</Header>
+        <Header as='h5' style={{ marginBottom: '4em'}}>Helping you to find the perfect place to live</Header>
           <Container>
             <LondonBoroughs handleBoroughClick={this.handleBoroughClick}/>
           </Container>
@@ -204,7 +195,7 @@ class App extends Component {
             {this.state.showModal 
               ? <ResultsComponent 
               filterResult={this.sortedPostcodes}
-              postcodes={this.state.selectedBorough.postcodes}
+              borough={this.state.selectedBorough}
               clearFilterResult={this.clearFilterResult}
               usedFilters={this.state.selectedFilters}
               returnedFilterResult={this.state.filterResult}
