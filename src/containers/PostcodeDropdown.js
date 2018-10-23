@@ -29,12 +29,12 @@ export default class PostCodeDropdown extends Component {
               this.props.handlePostcodeClick(e)
             }}}>
             <option value='default-area'>Select Area</option>
-            {this.props.borough.postcodes && this.props.borough.postcodes.map(code =>
+            {/* {this.props.borough.postcodes && this.props.borough.postcodes.map(code =>
               <option 
               key={code.id} 
               value={code.outcode}>
               {code.outcode}
-              </option>)}
+              </option>)} */}
           </select>
           <div>
             {/* {this.state.hasSelected ? results : '' } */}

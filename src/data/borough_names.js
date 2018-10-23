@@ -1,0 +1,8 @@
+const boroughs = [
+  {key: 1, text: 'Barking and Dagenham', value: 'Barking and Dagenham'}, {key: 2, text: 'Barnet', value: 'Barnet'}, {key: 3, text: 'Bexley', value: 'Bexley'}, {key: 4, text: 'Brent', value: 'Brent'}, {key: 5, text: 'Bromley', value: 'Bromley'}, {key: 6, text: 'Camden', value: 'Camden'}, {key: 7, text: 'Croydon', value: 'Croydon'}, {key: 8, text: 'Ealing', value: 'Ealing'}, {key: 9, text: 'Enfield', value: 'Enfield'},
+  {key: 10, text: 'Greenwich', value: 'Greenwich'}, {key: 11, text: 'Hackney', value: 'Hackney'}, {key: 12, text: 'Hammersmith and Fulham', value: 'Hammersmith and Fulham'}, {key: 13, text: 'Haringey', value: 'Haringey'}, {key: 14, text: 'Harrow', value: 'Harrow'}, {key: 15, text: 'Havering', value: 'Havering'}, {key: 16, text: 'Hillingdon', value: 'Hillingdon'}, {key: 17, text: 'Hounslow', value: 'Hounslow'},
+  {key: 18, text: 'Islington', value: 'Islington'}, {key: 19, text: 'Kensington and Chelsea', value: 'Kensington and Chelsea'}, {key: 20, text: 'Kingston upon Thames', value: 'Kingston upon Thames'}, {key: 21, text: 'Lambeth', value: 'Lambeth'}, {key: 22, text: 'Lewisham', value: 'Lewisham'}, {key: 23, text: 'Merton', value: 'Merton'},
+  {key: 24, text: 'Newham', value: 'Newham'}, {key: 25, text: 'Redbridge', value: 'Redbridge'}, {key: 26, text: 'Richmond upon Thames', value: 'Richmond upon Thames'}, {key: 27, text: 'Southwark', value: 'Southwark'}, {key: 28, text: 'Sutton', value: 'Sutton'}, {key: 29, text: 'Tower Hamlets', value: 'Tower Hamlets'}, {key: 30, text: 'Waltham Forest', value: 'Waltham Forest'},
+  {key: 31, text: 'Wandsworth', value: 'Wandsworth'}, {key: 32, text: 'Westminster', value: 'Westminster'}, {key: 33, text: 'City of London', value: 'City of London'}]
+
+export default boroughs

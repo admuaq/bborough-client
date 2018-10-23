@@ -53,7 +53,7 @@ export default class ResultsComponent extends Component {
                 found.map(postcode => { 
                   return (
                   <div>
-                    <h1>{postcode.outcode}</h1>
+                    <p><h1>{postcode.outcode}</h1></p>
                     <Grid centered columns={4} padded>
                       <Grid.Row centered >
                       <Grid.Column>
@@ -83,9 +83,10 @@ export default class ResultsComponent extends Component {
                     <Container style={{ marginTop: '1em', marginBottom: '2em'}}>
                     <span>There are currently {postcode.houseListings} home vacancies in this area</span>
                     </Container>
-                    <a href={`https://www.streetcheck.co.uk/postcodedistrict/${postcode.outcode}#housing`} target="_blank"><Button floated='left' color='green'><Icon name='window restore outline' />More on housing</Button></a>
-                    <a href={`https://www.streetcheck.co.uk/postcode/startingwith/${postcode.outcode}`}target="_blank"><Button color='pink'><Icon name='window restore outline' />Find your perfect street</Button></a>
-                    <a href={`https://www.zoopla.co.uk/to-rent/property/london/${postcode.outcode}`} target="_blank"><Button floated='right' color='purple'><Icon name='window restore outline' />Search Zoopla</Button></a>         
+                    <a href={`https://www.streetcheck.co.uk/postcodedistrict/${postcode.outcode}#housing`} target="_blank" rel="nofollow noopener noreferrer"><Button floated='left' color='green'><Icon name='window restore outline' />More on housing</Button></a>
+                    <a href={`https://www.streetcheck.co.uk/postcode/startingwith/${postcode.outcode}`}target="_blank" rel="nofollow noopener noreferrer"><Button color='pink'><Icon name='window restore outline' />Find your perfect street</Button></a>
+                    <a href={`https://www.zoopla.co.uk/for-sale/property/${postcode.outcode}/?q=${postcode.outcode}&radius=0&results_sort=newest_listings&search_source=refine`} target="_blank" rel="nofollow noopener noreferrer"><Button floated='right' color='purple'><Icon name='window restore outline' />Search Zoopla</Button></a>
+                    {/* https://www.zoopla.co.uk/for-sale/property/rm15/?q=Rm15&radius=0&results_sort=newest_listings&search_source=refine */}
                   </div>
                   )})
               }

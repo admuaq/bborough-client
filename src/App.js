@@ -191,6 +191,7 @@ class App extends Component {
             <div>
             <span>Area by:</span><br/>
             {
+              // change label here to change textbox names
               this.state.possibleOptions.map( option =>
                 <Checkbox label={option} onChange={(e) =>
                   this.onSelectCheckbox(e.target.innerText)}/>
@@ -215,7 +216,7 @@ class App extends Component {
             </Container>
           </Container>
           <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
-           { !this.state.loaded ? <CompareBoroughData /> : <div></div> }
+           { !this.state.loaded ? <CompareBoroughData boroughs={this.state.data}/> : <div></div> }
           </Container>
       </div>
     )

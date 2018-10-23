@@ -7,7 +7,7 @@ export default class BoroughDropdown extends Component {
 
     render() { 
 
-      let postcodeComp = <PostCodeDropdown borough={this.state.selectedBorough}/>
+      // let postcodeComp = <PostCodeDropdown borough={this.state.selectedBorough}/>
 
       return ( 
         <div>
@@ -22,13 +22,13 @@ export default class BoroughDropdown extends Component {
               } 
               }}>
               <option value='default-borough'>Select Borough</option>
-              {this.props.data.map(result =>
+              {/* {this.props.data.map(result =>
                 <option 
                 key={result.id} 
                 value={result.name}>
                 {result.name}
                 </option>
-              )}
+              )} */}
             </select>
             <div>
             {/* { this.state.hasSelected ?  postcodeComp : <select disabled></select>  } */}
