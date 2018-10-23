@@ -13,6 +13,7 @@ path:hover {
     stroke-linejoin: round;
     fill: #3e68ad !important;
     cursor: pointer;
+    transition: fill 0.2s; 
 }
 
 path:focus {

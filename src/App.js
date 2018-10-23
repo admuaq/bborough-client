@@ -42,11 +42,6 @@ class App extends Component {
     this.renderPostcodes(borough)
   }
 
-  // handlePostcodeClick = (e) => {
-  //   let areacode = e.target.value
-  //   this.renderResults(areacode)
-  // }
-
   renderPostcodes = (borough) => {
     console.log(borough)
     if (this.showModal === true){
@@ -162,11 +157,15 @@ class App extends Component {
       </Dimmer>
       :
       <div className='App'>
-        <Menu fixed='top'>
-          <Container>
-          </Container>
+        <Menu fixed='top' style={{ marginBotton: '4em', position: 'inherit'}}>
+          <Menu.Item>
+            <div class='App-logo'>
+            <Header style={{ fontFamily: 'Satisfy' }}>Bb</Header>
+            </div>
+          </Menu.Item>
+          <Menu.Item name='credits' onClick={null}>Credits</Menu.Item>
         </Menu>
-        <Header as='h1' style={{ marginTop: '1em', fontFamily: 'Satisfy', fontSize: '100px'}}>Bborough</Header>
+        <Header className='title'>Bborough</Header>
         <Header as='h5' style={{ marginBottom: '4em'}}>Helping you to find the perfect place to live</Header>
           <Container>
             <LondonBoroughs handleBoroughClick={this.handleBoroughClick}/>
@@ -180,12 +179,26 @@ class App extends Component {
             { this.state.showCheckbox
             ? 
             <div>
-            <span>Area by:</span><br/>
+            <span>Filter area by:</span><br/>
             {
+              
               // change label here to change textbox names
-              this.state.possibleOptions.map( option =>
-                <Checkbox label={option} onChange={(e) =>
-                  this.onSelectCheckbox(e.target.innerText)}/>
+              this.state.possibleOptions.map( option =>{
+                // this.onSelectCheckbox(e.target.innerText)
+                
+                if ( option === 'averageSalaryPostedJob'){
+                return <Checkbox style={{ padding: '1em'}} name={option} label='Salary' onChange={(e) =>{
+                  this.onSelectCheckbox(e.target.parentElement.firstChild.name)}}/>
+                }
+                else if ( option === 'crimeRate'){
+                  return <Checkbox style={{ padding: '1em'}} name={option} label='Crime' onChange={(e) =>{
+                    this.onSelectCheckbox(e.target.parentElement.firstChild.name)}}/>
+                  }
+                else if (option === 'houseListings'){
+                  return <Checkbox style={{ padding: '1em'}} name={option} label='Home listings' onChange={(e) =>{
+                    this.onSelectCheckbox(e.target.parentElement.firstChild.name)}}/>
+                  }
+                }
               )
             }
             </div> 

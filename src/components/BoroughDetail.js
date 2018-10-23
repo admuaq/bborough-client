@@ -7,7 +7,7 @@ const BoroughDetail = (props) => {
       <ul key={props.boroughData.id}>
         <li>id: {props.boroughData.id}</li>
         <li>name: {props.boroughData.name}</li>
-        <li>avgInc: {props.boroughData.averageIncomeBorough}</li>
+        <li>Average Salary earned in borough: {props.boroughData.averageIncomeBorough}</li>
       </ul>
     </div>
   )

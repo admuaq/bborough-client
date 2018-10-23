@@ -3,8 +3,13 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+  /* animation: App-logo-spin infinite 20s linear; */
+  /* height: 40vmin; */
+  transition: transform .2s; 
+}
+
+.App-logo:hover {
+  transform: scale(1.5);
 }
 
 .App-header {
@@ -31,6 +36,12 @@
   }
 }
 
-.title {
+#root .title {
   font-family: 'Satisfy', cursive;
+  font-size: 500%;
+}
+
+#root .button {
+  background-color: #3e68ad;
+  color: white;
 }

@@ -43,15 +43,13 @@ class CompareBoroughData extends Component {
     {
       console.log('Please add another borough to compare') 
     }
-    else if (this.state.firstBoroughSelected && this.state.secondBoroughSelected)
+    else if (this.state.firstBoroughSelected && this.state.secondBoroughSelected && this.state.selectedBoroughs[0] !== this.state.selectedBoroughs[1])
     {
-      console.log(this.state.firstBorough) 
-      console.log(this.state.secondBorough)
       this.setState({...this.state, revealed: true})
     }
     else
     {
-      return
+      console.log('No duplicates allowed') 
     }
   }
 

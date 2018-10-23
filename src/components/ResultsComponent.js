@@ -43,19 +43,19 @@ export default class ResultsComponent extends Component {
         ?<Button onClick={() => this.findRank(found) }>Load Results</Button>
         : <div><h1>Results loaded!</h1><Button>Show Me!!!</Button></div>} closeIcon onClose={() => this.props.clearFilterResult()}>
         <Modal.Header >Results</Modal.Header>
-        <Modal.Content style={{ paddingLeft: '5em', paddingRight: '5em', marginBottom: '2em', marginBottom: '2em' }}>
-          <Modal.Description>
-            <p>The best area in this borough for you is...</p>
-          </Modal.Description>
+        <Modal.Content>
               {
-                <Modal.Content style={{ paddingLeft: '5em', paddingRight: '5em', marginBottom: '2em', marginBottom: '2em' }}>
+                <Modal.Content>
                 {
                 found.map(postcode => { 
                   let percentage = Math.ceil(((postcode.averageSalaryPostedJob/this.props.borough.averageIncomeBorough) * 100))
                   return (
-                  <div>
-                    <p><h1>{postcode.outcode}</h1></p>
+                    <div>
+                    <p>The best area in this borough for you is...</p>
                     <Grid centered columns={4} padded>
+                      <Grid.Row>
+                        <span>{postcode.outcode}</span>
+                      </Grid.Row>
                       <Grid.Row centered >
                       <Grid.Column>
                         <Statistic>
