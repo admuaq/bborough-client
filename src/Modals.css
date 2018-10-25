@@ -2,6 +2,34 @@
     font-size: 50px;
     font-weight: bold;
     font-family: Satisfy;
+    animation: Bounce infinite alternate 1s;
+}
+
+@keyframes Bounce {
+    from {
+        transform: scale(0.8);
+    }
+    to {
+        transform: scale(1);
+      }
+  }
+
+@keyframes Star-icon-spin-clock {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+@keyframes Star-icon-spin-anti {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
 }
 
 .statistics {
@@ -14,3 +42,14 @@
     padding-left: 200px;
     padding-right: 200px;
 }
+
+.left-star {
+    color: rgb(255, 183, 0);
+    animation: Star-icon-spin-anti infinite 10s linear;
+}
+
+.right-star {
+    color:  rgb(255, 183, 0);
+    animation: Star-icon-spin-clock infinite 10s linear;
+}
+

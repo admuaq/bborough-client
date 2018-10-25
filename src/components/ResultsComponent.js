@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Button, Grid, Statistic, 
-        Container, Divider, Icon, Segment,
-        Dimmer, Loader } from 'semantic-ui-react'
+        Container, Divider, Icon } from 'semantic-ui-react'
 
 import '../Modals.css'
 
@@ -52,12 +51,12 @@ export default class ResultsComponent extends Component {
                 found.map(postcode => { 
                   let percentage = Math.ceil(((postcode.averageSalaryPostedJob/this.props.borough.averageIncomeBorough) * 100))
                   return (
-                    <div>
+                    <div key={`results-${postcode.outcode}`}>
                     <p>The best area in this borough for you is probably...</p>
                     <Container className='statistics'>
                     <Grid centered columns={4} padded>
                       <Grid.Row>
-                        <span class='chosen-postcode'>{postcode.outcode}</span>
+                        <Icon className='left-star' size='big' name='star' /><span className='chosen-postcode'>  {postcode.outcode}  </span><Icon className='right-star' size='big' name='star' />
                       </Grid.Row>
                       <Grid.Row centered >
                       <Grid.Column>

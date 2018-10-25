@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Modal, Grid, Dropdown } from 'semantic-ui-react'
 
-import BoroughDropdown from '../containers/BoroughDropdown'
-import PostcodeDropdown from '../containers/PostcodeDropdown'
 import BoroughDetail from './BoroughDetail'
 
 import boroughNames from '../data/borough_names'
@@ -64,16 +62,16 @@ class CompareBoroughData extends Component {
   render () {
     // {text: 'Barking and Dagenham', value: 'Barking and Dagenham'}
     
-    const filteredBoroughs = 
-    this.state.firstBoroughSelected || this.state.secondBoroughSelected
-    ?
-    boroughNames
-      .filter(borough =>
-        this.state.selectedBoroughs.length > 0 &&
-        this.state.selectedBoroughs[0].name !== borough.text
-      )
-    :
-    boroughNames
+    // const filteredBoroughs = 
+    // this.state.firstBoroughSelected || this.state.secondBoroughSelected
+    // ?
+    // boroughNames
+    //   .filter(borough =>
+    //     this.state.selectedBoroughs.length > 0 &&
+    //     this.state.selectedBoroughs[0].name !== borough.text
+    //   )
+    // :
+    // boroughNames
 
     return (
       <Modal trigger={<Button >Compare boroughs</Button>} closeIcon onClose={()=> this.clearFilterResult()} >
@@ -106,8 +104,8 @@ class CompareBoroughData extends Component {
               <Grid columns='equal'>
               <Grid.Row>
                 {this.state.selectedBoroughs.map( data=> 
-                <Grid.Column>
-                  <BoroughDetail key={data.id} boroughData={data} boroughs={this.props.boroughs}/>
+                <Grid.Column key={`column-${this.state.selectedBoroughs.indexOf(data) + 1}`}>
+                  <BoroughDetail key={data.name} boroughData={data} boroughs={this.props.boroughs}/>
                 </Grid.Column>)
                 }
                 </Grid.Row>

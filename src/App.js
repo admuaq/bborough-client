@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import './App.css'
-import { Container, Checkbox, Icon, Dimmer, Header, Loader, Grid, 
-  Menu, Segment, Button } from 'semantic-ui-react'
+import { Container, Checkbox, Dimmer, Header, Loader, 
+  Menu, Button, Modal } from 'semantic-ui-react'
 
 import CompareBoroughData from './components/CompareBoroughData'
 import LondonBoroughs from './components/LondonBoroughs'
 import ResultsComponent from './components/ResultsComponent'
+import Instructions from './components/Instructions'
 
 
 class App extends Component {
@@ -78,7 +79,7 @@ class App extends Component {
 
   sortedPostcodes = (postcodes) => {
 
-    let options = this.state.selectedFilters
+    // let options = this.state.selectedFilters
 
     const optionSortMethods = {
       averageSalaryPostedJob: 'asc',
@@ -163,7 +164,9 @@ class App extends Component {
             <Header style={{ fontFamily: 'Satisfy' }}>Bb</Header>
             </div>
           </Menu.Item>
-          <Menu.Item name='credits' onClick={null}>Credits</Menu.Item>
+          <Menu.Item name='help'>
+          <Instructions />
+          </Menu.Item>
           <Menu.Item name='version'>v.1</Menu.Item>
         </Menu>
         <Header className='title'>Bborough</Header>
@@ -188,16 +191,16 @@ class App extends Component {
                 // this.onSelectCheckbox(e.target.innerText)
                 
                 if ( option === 'averageSalaryPostedJob'){
-                return <Checkbox style={{ padding: '1em'}} name={option} label='Salary' onChange={(e) =>{
-                  this.onSelectCheckbox(e.target.parentElement.firstChild.name)}}/>
+                return <Checkbox key={option} style={{ padding: '1em'}} name={option} label='Salary' onChange={(e) =>{
+                  this.onSelectCheckbox(option)}}/>
                 }
                 else if ( option === 'crimeRate'){
-                  return <Checkbox style={{ padding: '1em'}} name={option} label='Crime' onChange={(e) =>{
-                    this.onSelectCheckbox(e.target.parentElement.firstChild.name)}}/>
+                  return <Checkbox key={option} style={{ padding: '1em'}} name={option} label='Crime' onChange={(e) =>{
+                    this.onSelectCheckbox(option)}}/>
                   }
                 else if (option === 'houseListings'){
-                  return <Checkbox style={{ padding: '1em'}} name={option} label='Home listings' onChange={(e) =>{
-                    this.onSelectCheckbox(e.target.parentElement.firstChild.name)}}/>
+                  return <Checkbox key={option} style={{ padding: '1em'}} name={option} label='Home listings' onChange={(e) =>{
+                    this.onSelectCheckbox(option)}}/>
                   }
                 }
               )
