@@ -104,11 +104,13 @@ class CompareBoroughData extends Component {
             ? 
             <div>
               <Grid columns='equal'>
+              <Grid.Row>
                 {this.state.selectedBoroughs.map( data=> 
-                <Grid.Column >
-                  <BoroughDetail key={data.id} boroughData={data}/>
+                <Grid.Column>
+                  <BoroughDetail key={data.id} boroughData={data} boroughs={this.props.boroughs}/>
                 </Grid.Column>)
                 }
+                </Grid.Row>
               </Grid>
            </div>
             : null

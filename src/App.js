@@ -159,18 +159,19 @@ class App extends Component {
       <div className='App'>
         <Menu fixed='top' style={{ marginBotton: '4em', position: 'inherit'}}>
           <Menu.Item>
-            <div class='App-logo'>
+            <div className='App-logo'>
             <Header style={{ fontFamily: 'Satisfy' }}>Bb</Header>
             </div>
           </Menu.Item>
           <Menu.Item name='credits' onClick={null}>Credits</Menu.Item>
+          <Menu.Item name='version'>v.1</Menu.Item>
         </Menu>
         <Header className='title'>Bborough</Header>
         <Header as='h5' style={{ marginBottom: '4em'}}>Helping you to find the perfect place to live</Header>
           <Container>
             <LondonBoroughs handleBoroughClick={this.handleBoroughClick}/>
           </Container>
-          <Container style={{ marginTop: '2em', marginBottom: '2em'}}>
+          <Container style={{ marginTop: '2em', marginBottom: '1em'}}>
             {
               !!this.state.selectedBorough.name && `Borough: ${this.state.selectedBorough.name}`
             }
@@ -202,9 +203,9 @@ class App extends Component {
               )
             }
             </div> 
-            : <div><span>Pick a borough</span><br/><span>or</span></div> }
+            : <span>Pick a borough</span> }
             
-            <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
+            <Container>
             {this.state.showModal 
               ? <ResultsComponent 
               filterResult={this.sortedPostcodes}
@@ -213,14 +214,13 @@ class App extends Component {
               usedFilters={this.state.selectedFilters}
               returnedFilterResult={this.state.filterResult}
               findRank={this.findRank}/>
-              
               :
-              <div></div>
+              null
             }
             </Container>
           </Container>
-          <Container text style={{marginTop: '2em', marginBottom: '2em'}}>
-           { !this.state.loaded ? <CompareBoroughData boroughs={this.state.data}/> : <div></div> }
+          <Container >
+           { !this.state.loaded ? <CompareBoroughData boroughs={this.state.data}/> : null }
           </Container>
       </div>
     )

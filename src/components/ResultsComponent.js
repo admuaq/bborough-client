@@ -3,6 +3,8 @@ import { Modal, Button, Grid, Statistic,
         Container, Divider, Icon, Segment,
         Dimmer, Loader } from 'semantic-ui-react'
 
+import '../Modals.css'
+
 export default class ResultsComponent extends Component {
 
     state = { stats: {} }
@@ -51,17 +53,18 @@ export default class ResultsComponent extends Component {
                   let percentage = Math.ceil(((postcode.averageSalaryPostedJob/this.props.borough.averageIncomeBorough) * 100))
                   return (
                     <div>
-                    <p>The best area in this borough for you is...</p>
+                    <p>The best area in this borough for you is probably...</p>
+                    <Container className='statistics'>
                     <Grid centered columns={4} padded>
                       <Grid.Row>
-                        <span>{postcode.outcode}</span>
+                        <span class='chosen-postcode'>{postcode.outcode}</span>
                       </Grid.Row>
                       <Grid.Row centered >
                       <Grid.Column>
                         <Statistic>
                           <Statistic.Value>#{this.state.stats.salaryRank}</Statistic.Value>
-                          <Statistic.Label>in average salary (compared to other areas in this borough)  </Statistic.Label>
-                          <p>This is {percentage}% {percentage > 100 ? 'higher than the borough average!!!' : 'of the borough average.' } </p>
+                          <Statistic.Label >in average salary (compared to other areas in this borough)  </Statistic.Label>
+                          <h6 align='center'>This is {percentage > 100 ?  `${percentage - 100}% higher than the borough average!!!` :`${percentage}% of the borough average.` } </h6>
                         </Statistic>
                       </Grid.Column>
                       </Grid.Row>
@@ -70,17 +73,19 @@ export default class ResultsComponent extends Component {
                         <Statistic>
                           <Statistic.Value>#{this.state.stats.crimeRank}</Statistic.Value>
                           <Statistic.Label>lowest in crime rate</Statistic.Label>
+                          <h6 align='center'>This is {this.state.stats.crimeRank > 5 ? 'relatively high' : 'pretty low.' } </h6>
                         </Statistic>
                       </Grid.Column>
                       <Grid.Column>
                         <Statistic>
                           <Statistic.Value>#{this.state.stats.houseListingsRank}</Statistic.Value>
                           <Statistic.Label>by no. house listings</Statistic.Label>
+                          <h6 align='center'>There are {this.state.stats.houseListingsRank < 5 ? 'many' : 'not many if any' } current house listings! </h6>
                         </Statistic>
                       </Grid.Column>
                       </Grid.Row>
                     </Grid>
-   
+                    </Container>
                     <Divider />
                     <Container style={{ marginTop: '1em', marginBottom: '2em'}}>
                     <span>There are currently {postcode.houseListings} home vacancies in this area</span>
