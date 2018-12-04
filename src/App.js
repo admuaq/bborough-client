@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import { Container, Checkbox, Dimmer, Header, Loader, 
-  Menu, Button, Modal } from 'semantic-ui-react'
+  Menu} from 'semantic-ui-react'
 
 import CompareBoroughData from './components/CompareBoroughData'
 import LondonBoroughs from './components/LondonBoroughs'
