@@ -4,7 +4,7 @@ import { Container, Checkbox, Dimmer, Header, Loader,
   Menu} from 'semantic-ui-react'
 
 import CompareBoroughData from './components/CompareBoroughData'
-import LondonBoroughs from './components/LondonBoroughs'
+import LondonBoroughs from './components/londonBoroughs'
 import ResultsComponent from './components/ResultsComponent'
 import Instructions from './components/Instructions'
 
