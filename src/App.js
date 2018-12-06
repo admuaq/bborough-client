@@ -27,7 +27,7 @@ class App extends Component {
   }
   
   fetchData = () => {
-    fetch('http://localhost:3000/boroughs')
+    fetch('https://intense-lake-44544.herokuapp.com/boroughs')
     .then( resp => resp.json())
     .then( boroughData => 
       this.setState(
